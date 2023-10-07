@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15)),
-                                Text("check",
+                                Text("checkBox",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15)),
