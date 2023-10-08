@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import './home/home.dart';
-import './chat/chat.dart';
-import './calender/calender.dart';
-import './matching/matching.dart';
-import './menuwidget.dart';
+import 'home.dart';
+import 'chat.dart';
+import 'calender.dart';
+import 'matching.dart';
+import 'menuwidget.dart';
 
 void main() => runApp(MyApp());
 
