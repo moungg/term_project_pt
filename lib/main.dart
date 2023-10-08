@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Custom Menu Example'),
+        title: Text('Fit-T'),
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: MenuWidget(
