@@ -56,6 +56,7 @@ class HomePage extends StatelessWidget {
             color: Colors.black,
             child: Text(
               '오늘의 할일',
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -75,6 +76,7 @@ class HomePage extends StatelessWidget {
             color: Colors.black,
             child: Text(
               '오늘의 식단',
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
