@@ -42,6 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Fit-T'),
+        backgroundColor: Colors.black, // AppBar 배경색: 검은색
+        foregroundColor: Colors.white, // AppBar 글씨색: 흰색
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: MenuWidget(
