@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import './home/home.dart';
-import './chat/chat.dart';
-import './calender/calender.dart';
-import './matching/matching.dart';
-import './menuwidget.dart';
+import 'home.dart';
+import 'chat.dart';
+import 'calender.dart';
+import 'matching.dart';
+import 'menuwidget.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,6 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Fit-T'),
+        backgroundColor: Colors.black, // AppBar 배경색: 검은색
+        foregroundColor: Colors.white, // AppBar 글씨색: 흰색
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: MenuWidget(
