@@ -4,20 +4,19 @@
   // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
   "version": "0.2.0",
   "configurations": [
-    
     {
-      "name": "term_project_pt",
+      "name": "pt",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "term_project_pt (profile mode)",
+      "name": "pt (profile mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "term_project_pt (release mode)",
+      "name": "pt (release mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
