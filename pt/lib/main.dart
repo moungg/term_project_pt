@@ -10,13 +10,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('HTTP Request Example'),
+          title: Text('My Flutter App'),
         ),
         body: Center(
-          child: ElevatedButton(
-            onPressed: () {},
-            child: Text('Fetch Data'),
-          ),
+          child: Text('Hello, Flutter!'),
         ),
       ),
     );
