@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'calender.dart';
+//import 'calender.dart';
 import 'matching.dart';
 import 'menuwidget.dart';
 import 'chat_tab.dart'; // Import ChatTab
+import 'login.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> pages = [
       HomePage(),
       ChatTab(), // Use ChatTab instead of ChatPage
-      CalendarPage(),
+      //CalendarPage(),
       MatchingPage(),
     ];
 
@@ -50,6 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _currentIndex,
         onMenuItemTapped: onMenuItemTapped,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to the login screen when the button is pressed
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ));
+        },
+        child: Icon(Icons.login),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 }
