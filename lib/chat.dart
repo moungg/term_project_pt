@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+<<<<<<< HEAD
 class ChatPage extends StatefulWidget {
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -109,6 +110,16 @@ class ChatMessage extends StatelessWidget {
             ),
           ),
         ],
+=======
+class ChatPage extends StatelessWidget {
+  const ChatPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text('This is the Matching Screen'),
+>>>>>>> main
       ),
     );
   }
