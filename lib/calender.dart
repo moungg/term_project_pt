@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -98,4 +95,3 @@ void main() {
     home: CalendarPage(),
   ));
 }
->>>>>>> main
