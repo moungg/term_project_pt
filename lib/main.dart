@@ -4,19 +4,24 @@ import 'chat.dart';
 import 'calender.dart';
 import 'matching.dart';
 import 'menuwidget.dart';
+import 'login.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -41,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fit-T'),
+        title: Image.asset('assets/title.png', height: 40),
         backgroundColor: Colors.black, // AppBar 배경색: 검은색
         foregroundColor: Colors.white, // AppBar 글씨색: 흰색
       ),

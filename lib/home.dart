@@ -45,6 +45,8 @@ class HomePage extends StatelessWidget {
     Food(image: 'assets/food2.png', name: 'Fruit Bowl', calories: 200),
   ];
 
+  HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +54,9 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             color: Colors.black,
-            child: Text(
+            child: const Text(
               '오늘의 할일',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -72,9 +74,9 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             color: Colors.black,
-            child: Text(
+            child: const Text(
               '오늘의 식단',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -105,7 +107,7 @@ class HomePage extends StatelessWidget {
           // Handle task item tap
         },
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(15.0),
@@ -116,17 +118,17 @@ class HomePage extends StatelessWidget {
                 backgroundColor: Colors.white,
                 backgroundImage: AssetImage(task.image),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(task.title, style: TextStyle(color: Colors.black)),
+                  Text(task.title, style: const TextStyle(color: Colors.black)),
                   Text(
                       '반복 횟수: ${task.repeatCount}, 예상 시간: ${task.expectedTime}',
-                      style: TextStyle(color: Colors.black)),
+                      style: const TextStyle(color: Colors.black)),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Checkbox(
                 value: false,
                 onChanged: (bool? value) {
@@ -150,7 +152,7 @@ class HomePage extends StatelessWidget {
           // Handle food item tap
         },
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(15.0),
@@ -161,16 +163,16 @@ class HomePage extends StatelessWidget {
                 backgroundColor: Colors.white,
                 backgroundImage: AssetImage(food.image),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(food.name, style: TextStyle(color: Colors.black)),
+                  Text(food.name, style: const TextStyle(color: Colors.black)),
                   Text('예상 칼로리: ${food.calories} kcal',
-                      style: TextStyle(color: Colors.black)),
+                      style: const TextStyle(color: Colors.black)),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Checkbox(
                 value: false,
                 onChanged: (bool? value) {
