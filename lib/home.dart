@@ -50,51 +50,54 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: ListView(
         children: [
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            color: Colors.black,
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
               '오늘의 할일',
-              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: Colors.black), // 원하는 텍스트 스타일로 수정 가능
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: tasks.length,
-              itemBuilder: (context, index) {
-                return buildTaskItem(tasks[index]);
-              },
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            color: Colors.black,
-            child: const Text(
+          buildTaskListView(),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
               '오늘의 식단',
-              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                  color: Colors.black), // 원하는 텍스트 스타일로 수정 가능
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: foods.length,
-              itemBuilder: (context, index) {
-                return buildFoodItem(foods[index]);
-              },
-            ),
-          ),
+          buildFoodListView(),
         ],
       ),
+    );
+  }
+
+  Widget buildTaskListView() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      itemCount: tasks.length,
+      itemBuilder: (context, index) {
+        return buildTaskItem(tasks[index]);
+      },
+    );
+  }
+
+  Widget buildFoodListView() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      itemCount: foods.length,
+      itemBuilder: (context, index) {
+        return buildFoodItem(foods[index]);
+      },
     );
   }
 
