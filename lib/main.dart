@@ -39,8 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       HomePage(),
-      ChatPage(),
-      CalendarPage(),
+      const ChatPage(),
+      const CalendarPage(),
       MatchingPage(),
     ];
 
