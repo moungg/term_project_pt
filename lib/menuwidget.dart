@@ -4,7 +4,8 @@ class MenuWidget extends StatelessWidget {
   final int currentIndex;
   final Function(int) onMenuItemTapped;
 
-  MenuWidget({required this.currentIndex, required this.onMenuItemTapped});
+  const MenuWidget(
+      {super.key, required this.currentIndex, required this.onMenuItemTapped});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class MenuWidget extends StatelessWidget {
       currentIndex: currentIndex,
       selectedItemColor: Colors.white, // 선택된 아이템의 색상을 파란색으로 설정
 
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',

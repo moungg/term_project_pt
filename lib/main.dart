@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: LoginPage(), // 앱 시작 시 LoginPage 표시
+    return const MaterialApp(
+      home: MatchingPage(), // 앱 시작 시 LoginPage 표시
     );
   }
 }

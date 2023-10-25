@@ -16,3 +16,62 @@ def login_view(request):
         else:
             # 로그인 실패
             return JsonResponse({'message': '로그인 실패'})
+        
+
+from product.models import User
+import math
+import requests
+from rest_framework.response import Response
+from rest_framework import status
+
+def get_lat_lng_from_address(address):
+    # Google Geocoding API를 사용하여 주소에서 위도와 경도를 얻습니다.
+    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": address,
+        "key": "YOUR_GOOGLE_API_KEY"
+    }
+
+    response = requests.get(base_url, params=params)
+    data = response.json()
+
+    if data['status'] == "OK":
+        location = data['results'][0]['geometry']['location']
+        return location["lat"], location["lng"]
+    else:
+        return None, None
+
+def haversine(lat1, lon1, lat2, lon2):
+    # 지구의 반지름 (킬로미터 단위)
+    R = 6371.0
+
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    distance = R * c
+    return distance
+
+def get_nearby_experts(request):
+    if 'lat' in request.GET and 'lng' in request.GET:
+        user_lat = float(request.GET.get('lat'))
+        user_lng = float(request.GET.get('lng'))
+        
+        experts = User.objects.filter(is_expert=True)
+        distances = {}
+        
+        for expert in experts:
+            expert_lat, expert_lng = get_lat_lng_from_address(expert.address)
+            if expert_lat is not None and expert_lng is not None: 
+                distance = haversine(user_lat, user_lng, expert_lat, expert_lng)
+                distances[expert] = distance
+
+        # 거리에 따라 전문가 정렬
+        sorted_experts = sorted(distances.keys(), key=lambda x: distances[x])[:5]
+        recommendations = [{"username": expert.username, "distance": distances[expert]} for expert in sorted_experts]
+        
+        return Response({"recommendations": recommendations}, status=status.HTTP_200_OK)
+
+    else:
+        return Response({"error": "Latitude and longitude parameters are required."}, status=status.HTTP_400_BAD_REQUEST)
