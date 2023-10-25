@@ -9,18 +9,18 @@ import 'login.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
+    return  MaterialApp(
+      home: LoginPage(), // 앱 시작 시 LoginPage 표시
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -41,14 +41,14 @@ class _MyHomePageState extends State<MyHomePage> {
       HomePage(),
       const ChatPage(),
       const CalendarPage(),
-      MatchingPage(),
+      const MatchingPage(),
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/title.png', height: 40),
-        backgroundColor: Colors.black, // AppBar 배경색: 검은색
-        foregroundColor: Colors.white, // AppBar 글씨색: 흰색
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
       body: pages[_currentIndex],
       bottomNavigationBar: MenuWidget(

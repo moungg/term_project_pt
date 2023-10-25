@@ -1,11 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'main.dart';
 
 void main() {
-  runApp(const MaterialApp(home: LoginPage()));
+  runApp(MaterialApp(home: LoginPage()));
 }
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({Key? key}) : super(key: key);
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> loginUser(BuildContext context) async {
+    final username = usernameController.text;
+    final password = passwordController.text;
+
+    // 실제 서버 URL로 변경
+    const loginUrl = 'http://localhost:8000/login'; // 로그인 요청을 보낼 URL
+// 로그인 요청을 보낼 URL
+
+    final response = await http.post(Uri.parse(loginUrl), body: {
+      'username': username,
+      'password': password,
+    });
+
+    if (response.statusCode == 200) {
+      // 로그인 성공
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+    } else {
+      // 로그인 실패
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('로그인 실패'),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,23 +44,30 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Fit-T 이미지
             Image.asset(
-              'assets/title.png', // 이미지 파일 경로
-              width: 200, // 이미지의 가로 크기 조절
-              height: 200, // 이미지의 세로 크기 조절
+              'assets/title.png',
+              width: 200,
+              height: 200,
             ),
-            const SizedBox(height: 16.0), // 간격 추가
-            const RoundedTextField(label: '아이디', isPassword: false),
-            const SizedBox(height: 16.0), // 간격 추가
-            const RoundedTextField(label: '패스워드', isPassword: true),
-            const SizedBox(height: 16.0), // 간격 추가
+            const SizedBox(height: 16.0),
+            RoundedTextField(
+              label: '아이디',
+              isPassword: false,
+              controller: usernameController,
+            ),
+            const SizedBox(height: 16.0),
+            RoundedTextField(
+              label: '패스워드',
+              isPassword: true,
+              controller: passwordController,
+            ),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // 로그인 로직을 여기에 추가
+                loginUser(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black, // 버튼의 배경색 (검은색)
+                backgroundColor: Colors.black,
               ),
               child: const Text('로그인', style: TextStyle(color: Colors.white)),
             ),
@@ -44,20 +81,25 @@ class LoginPage extends StatelessWidget {
 class RoundedTextField extends StatelessWidget {
   final String label;
   final bool isPassword;
+  final TextEditingController controller;
 
-  const RoundedTextField(
-      {super.key, required this.label, required this.isPassword});
+  const RoundedTextField({
+    Key? key,
+    required this.label,
+    required this.isPassword,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      obscureText: isPassword, // 비밀번호 입력 필드인 경우 true로 설정
+      controller: controller,
+      obscureText: isPassword,
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
-          borderSide:
-              const BorderSide(color: Colors.black), // 박스 모양을 둥근 형태로 만듭니다.
+          borderSide: const BorderSide(color: Colors.black),
         ),
       ),
     );
