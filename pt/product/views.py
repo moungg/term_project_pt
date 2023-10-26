@@ -25,19 +25,20 @@ from rest_framework.response import Response
 from rest_framework import status
 
 def get_lat_lng_from_address(address):
-    # Google Geocoding API를 사용하여 주소에서 위도와 경도를 얻습니다.
-    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    base_url = "https://nominatim.openstreetmap.org/search"
     params = {
-        "address": address,
-        "key": "YOUR_GOOGLE_API_KEY"
+        "q": address,
+        "format": "json"
     }
-
-    response = requests.get(base_url, params=params)
+    headers = {
+        "User-Agent": "pt_system/1.0 (yj302kim@naver.com)"  # 적절한 사용자 에이전트 정보 설정
+    }
+    
+    response = requests.get(base_url, params=params, headers=headers)
     data = response.json()
 
-    if data['status'] == "OK":
-        location = data['results'][0]['geometry']['location']
-        return location["lat"], location["lng"]
+    if data:
+        return float(data[0]["lat"]), float(data[0]["lon"])
     else:
         return None, None
 
