@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-er2@lebs3#7nkn^j5&i)x+gh%p9c2#fp_=0ug=@j(*2la9#z+r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*' # 도메인과 포트만 허용하도록 수정
+]
 
 
 # Application definition
@@ -39,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'product',
-     'rest_framework',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -126,9 +128,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",  # 여기에 허용할 출처를 추가
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',

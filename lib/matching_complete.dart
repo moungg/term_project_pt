@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:location/location.dart';
 
 class MatchingCompletePage extends StatefulWidget {
   const MatchingCompletePage({super.key});
@@ -18,23 +19,20 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
     fetchExperts();
   }
 
-  Future<Map<String, dynamic>> getCurrentLocation() async {
-    const String url =
-        'https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY';
-    final response = await http.post(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
+  Future<LocationData> getCurrentLocation() async {
+    var locationService = Location();
+    PermissionStatus permission = await locationService.requestPermission();
+    if (permission == PermissionStatus.granted) {
+      return await locationService.getLocation();
     } else {
-      throw Exception('Failed to get location');
+      throw Exception('Location permission not granted');
     }
   }
 
   Future<void> fetchExperts() async {
     final location = await getCurrentLocation();
-    double lat = location['location']['lat'];
-    double lng = location['location']['lng'];
-
+    double? lat = location.latitude;
+    double? lng = location.longitude;
     final String url =
         'http://localhost:8000/get_nearby_experts?lat=$lat&lng=$lng';
     final response = await http.get(Uri.parse(url));

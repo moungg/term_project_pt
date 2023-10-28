@@ -1,5 +1,10 @@
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
+from product.models import User
+import math
+import requests
+from rest_framework.response import Response
+from rest_framework import status
 
 def login_view(request):
     if request.method == 'POST':
@@ -18,11 +23,7 @@ def login_view(request):
             return JsonResponse({'message': '로그인 실패'})
         
 
-from product.models import User
-import math
-import requests
-from rest_framework.response import Response
-from rest_framework import status
+
 
 def get_lat_lng_from_address(address):
     base_url = "https://nominatim.openstreetmap.org/search"
@@ -36,9 +37,10 @@ def get_lat_lng_from_address(address):
     
     response = requests.get(base_url, params=params, headers=headers)
     data = response.json()
-
+    print(data);
     if data:
         return float(data[0]["lat"]), float(data[0]["lon"])
+        
     else:
         return None, None
 
@@ -50,7 +52,7 @@ def haversine(lat1, lon1, lat2, lon2):
     dlon = math.radians(lon2 - lon1)
     a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
+    
     distance = R * c
     return distance
 
@@ -58,7 +60,7 @@ def get_nearby_experts(request):
     if 'lat' in request.GET and 'lng' in request.GET:
         user_lat = float(request.GET.get('lat'))
         user_lng = float(request.GET.get('lng'))
-        
+    
         experts = User.objects.filter(is_expert=True)
         distances = {}
         
