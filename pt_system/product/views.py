@@ -71,7 +71,7 @@ def get_nearby_experts(request):
                 distances[expert] = distance
 
         # 거리에 따라 전문가 정렬
-        sorted_experts = sorted(distances.keys(), key=lambda x: distances[x])[:5]
+        sorted_experts = sorted(distances.keys(), key=lambda x: distances[x])[:10000]
         recommendations = [{"username": expert.username, "distance": distances[expert]} for expert in sorted_experts]
         
         return Response({"recommendations": recommendations}, status=status.HTTP_200_OK)
