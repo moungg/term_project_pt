@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'dart:convert';
+import 'ChatPage.dart';
 
 class MatchingCompletePage extends StatefulWidget {
   const MatchingCompletePage({Key? key}) : super(key: key);
@@ -87,9 +88,18 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
               itemCount: experts.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  // 'return' 키워드를 추가
                   title: Text(experts[index]['username']),
                   subtitle: Text(
                       "Distance: ${experts[index]['distance'].toString()} km"),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatPage(user: experts[index]['username']),
+                      ),
+                    );
+                  },
                 );
               },
             ),
