@@ -1,22 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'matching_complete.dart';
 
-class MatchingPage extends StatelessWidget {
+class MatchingPage extends StatefulWidget {
   const MatchingPage({Key? key}) : super(key: key);
+
+  @override
+  _MatchingPageState createState() => _MatchingPageState();
+}
+
+//location 패키지를 활용하여 사용자의 현재 위치를 가져와 변수에 설정 후 구글 맵을 활용
+class _MatchingPageState extends State<MatchingPage> {
+  late GoogleMapController mapController;
+  LatLng? currentLocation; // Nullable 타입으로 변경합니다.
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  _getCurrentLocation() async {
+    final locationData = await Location().getLocation();
+    setState(() {
+      currentLocation = LatLng(locationData.latitude!, locationData.longitude!);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null, // AppBar를 null로 설정하여 없앨 수 있습니다.
+      appBar: null,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              'assets/title.png',
-
-              width: 300, // 이미지의 너비를 조정합니다.
-              height: 300, // 이미지의 높이를 조정합니다.
+            SizedBox(
+              width: 400,
+              height: 400,
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: currentLocation ??
+                      const LatLng(37.4219999, -122.0840575), // null 체크를 합니다.
+                  zoom: 11.0,
+                ),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -29,14 +65,14 @@ class MatchingPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black, // 버튼의 배경색을 검은색으로 설정합니다.
-                minimumSize: const Size(200, 50), // 버튼의 최소 크기를 조정합니다.
+                backgroundColor: Colors.black,
+                minimumSize: const Size(200, 50),
               ),
               child: const Text(
                 "Matching",
                 style: TextStyle(
-                  color: Colors.white, // 버튼 텍스트 색상을 흰색으로 설정합니다.
-                  fontSize: 18, // 버튼 텍스트 크기를 조정합니다.
+                  color: Colors.white,
+                  fontSize: 18,
                 ),
               ),
             ),
