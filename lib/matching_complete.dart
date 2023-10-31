@@ -36,13 +36,16 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
     final String url =
         'http://localhost:8000/get_nearby_experts?lat=$lat&lng=$lng';
     final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      setState(() {
-        experts = json.decode(response.body)['recommendations'];
-      });
-    } else {
-      throw Exception('Failed to get experts');
+    try {
+      if (response.statusCode == 200) {
+        setState(() {
+          experts = json.decode(response.body)['recommendations'];
+        });
+      } else {
+        throw Exception('Failed to get experts');
+      }
+    } catch (error) {
+      print(error);
     }
   }
 

@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from product.models import User
 import math
-import requests
+
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -25,25 +25,26 @@ def login_view(request):
 
 
 
+import requests
+
+GOOGLE_GEOCODING_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
+GOOGLE_API_KEY = "AIzaSyBpQCQx26_ClWRYFlflrtPuM5Nnp3Y0w9M"  # 실제 API 키로 바꿔주세요.
+
 def get_lat_lng_from_address(address):
-    base_url = "https://nominatim.openstreetmap.org/search"
     params = {
-        "q": address,
-        "format": "json"
-    }
-    headers = {
-        "User-Agent": "pt_system/1.0 (yj302kim@naver.com)"  # 적절한 사용자 에이전트 정보 설정
+        "address": address,
+        "key": GOOGLE_API_KEY
     }
     
-    response = requests.get(base_url, params=params, headers=headers)
+    response = requests.get(GOOGLE_GEOCODING_API_URL, params=params)
     data = response.json()
-    print(data);
-    if data:
-        return float(data[0]["lat"]), float(data[0]["lon"])
-        
+
+    if data["status"] == "OK":
+        lat = data["results"][0]["geometry"]["location"]["lat"]
+        lng = data["results"][0]["geometry"]["location"]["lng"]
+        return lat, lng
     else:
         return None, None
-
 def haversine(lat1, lon1, lat2, lon2):
     # 지구의 반지름 (킬로미터 단위)
     R = 6371.0
@@ -57,6 +58,7 @@ def haversine(lat1, lon1, lat2, lon2):
     return distance
 
 def get_nearby_experts(request):
+    print("get_nearby_experts 요청이 들어왔습니다.")
     if 'lat' in request.GET and 'lng' in request.GET:
         user_lat = float(request.GET.get('lat'))
         user_lng = float(request.GET.get('lng'))
@@ -71,7 +73,7 @@ def get_nearby_experts(request):
                 distances[expert] = distance
 
         # 거리에 따라 전문가 정렬
-        sorted_experts = sorted(distances.keys(), key=lambda x: distances[x])[:10000]
+        sorted_experts = sorted(distances.keys(), key=lambda x: distances[x])[:5]
         recommendations = [{"username": expert.username, "distance": distances[expert]} for expert in sorted_experts]
         
         return Response({"recommendations": recommendations}, status=status.HTTP_200_OK)
