@@ -42,9 +42,11 @@ def get_lat_lng_from_address(address):
     if data["status"] == "OK":
         lat = data["results"][0]["geometry"]["location"]["lat"]
         lng = data["results"][0]["geometry"]["location"]["lng"]
-        return lat, lng
+        print(lat);
+        return lat,lng
     else:
         return None, None
+    
 def haversine(lat1, lon1, lat2, lon2):
     # 지구의 반지름 (킬로미터 단위)
     R = 6371.0
@@ -57,26 +59,35 @@ def haversine(lat1, lon1, lat2, lon2):
     distance = R * c
     return distance
 
+
 def get_nearby_experts(request):
-    print("get_nearby_experts 요청이 들어왔습니다.")
-    if 'lat' in request.GET and 'lng' in request.GET:
-        user_lat = float(request.GET.get('lat'))
-        user_lng = float(request.GET.get('lng'))
-    
-        experts = User.objects.filter(is_expert=True)
-        distances = {}
-        
-        for expert in experts:
-            expert_lat, expert_lng = get_lat_lng_from_address(expert.address)
-            if expert_lat is not None and expert_lng is not None: 
-                distance = haversine(user_lat, user_lng, expert_lat, expert_lng)
-                distances[expert] = distance
+    lat = request.GET.get('lat')
+    lng = request.GET.get('lng')
 
-        # 거리에 따라 전문가 정렬
-        sorted_experts = sorted(distances.keys(), key=lambda x: distances[x])[:5]
-        recommendations = [{"username": expert.username, "distance": distances[expert]} for expert in sorted_experts]
-        
-        return Response({"recommendations": recommendations}, status=status.HTTP_200_OK)
+    if not lat or not lng:
+        return JsonResponse({'error': 'Latitude and Longitude are required.'}, status=400)
 
-    else:
-        return Response({"error": "Latitude and longitude parameters are required."}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        lat = float(lat)
+        lng = float(lng)
+    except ValueError:
+        return JsonResponse({'error': 'Invalid Latitude or Longitude.'}, status=400)
+
+    # 주어진 위치에서 5km 이내의 전문가 검색 (예시)
+    distance = 100000  # in kilometers
+    nearby_experts = []
+
+    for expert in User.objects.filter(is_expert=True):  # 변경: Expert 대신 User 모델 사용
+        expert_lat, expert_lng = get_lat_lng_from_address(expert.address)
+        if expert_lat is None or expert_lng is None:
+            continue
+
+        distance_to_expert = haversine(lat, lng, expert_lat, expert_lng)
+
+        if distance_to_expert <= distance:
+            nearby_experts.append({
+                'username': expert.username,
+                'distance': distance_to_expert
+            })
+
+    return JsonResponse({'recommendations': nearby_experts})

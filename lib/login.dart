@@ -92,14 +92,17 @@ class RoundedTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: const BorderSide(color: Colors.black),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0), // 옆면에 16.0의 패딩 추가
+      child: TextField(
+        controller: controller,
+        obscureText: isPassword,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(color: Colors.black),
+          ),
         ),
       ),
     );
