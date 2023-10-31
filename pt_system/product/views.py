@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login
-from django.http import JsonResponse
 from product.models import User
-import math
 
+from django.http import JsonResponse
+import math
+import requests
 from rest_framework.response import Response
 from rest_framework import status
+from math import radians, sin, cos, sqrt, atan2
 
 def login_view(request):
     if request.method == 'POST':
@@ -21,12 +23,6 @@ def login_view(request):
         else:
             # 로그인 실패
             return JsonResponse({'message': '로그인 실패'})
-        
-
-
-
-import requests
-
 
 def get_lat_lng_from_address(address):
     base_url = "https://nominatim.openstreetmap.org/search"
@@ -35,29 +31,33 @@ def get_lat_lng_from_address(address):
         "format": "json"
     }
     headers = {
-        "User-Agent": "pt_system/1.0 (yj302kim@naver.com)"  # 적절한 사용자 에이전트 정보 설정
+        "User-Agent": "pt_system/1.0 (yj302kim@naver.com)"
     }
     
-    response = requests.get(base_url, params=params, headers=headers)
-    data = response.json()
-    print(data);
-    if data:
-        return float(data[0]["lat"]), float(data[0]["lon"])
+    try:
+        response = requests.get(base_url, params=params, headers=headers)
+        response.raise_for_status()
+        data = response.json()
         
-    else:
-        return None, None
+        if data:
+            return float(data[0]["lat"]), float(data[0]["lon"])
+    except requests.RequestException as e:
+        print(f"Error fetching coordinates for address {address}: {e}")
+
+    return None, None
+
 def haversine(lat1, lon1, lat2, lon2):
-    # 지구의 반지름 (킬로미터 단위)
-    R = 6371.0
+    R = 6371.0  # Earth radius in kilometers
 
     dlat = math.radians(lat2 - lat1)
     dlon = math.radians(lon2 - lon1)
-    a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
+    a = (math.sin(dlat / 2)**2 +
+         math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * 
+         math.sin(dlon / 2)**2)
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    
     distance = R * c
-    return distance
 
+    return distance
 
 def get_nearby_experts(request):
     lat = request.GET.get('lat')
@@ -72,18 +72,17 @@ def get_nearby_experts(request):
     except ValueError:
         return JsonResponse({'error': 'Invalid Latitude or Longitude.'}, status=400)
 
-    # 주어진 위치에서 5km 이내의 전문가 검색 (예시)
-    distance = 100000  # in kilometers
+    distance_limit = 100000  # in kilometers
     nearby_experts = []
-
-    for expert in User.objects.filter(is_expert=True):  # 변경: Expert 대신 User 모델 사용
+    
+    for expert in User.objects.filter(is_expert=True):
         expert_lat, expert_lng = get_lat_lng_from_address(expert.address)
         if expert_lat is None or expert_lng is None:
             continue
 
         distance_to_expert = haversine(lat, lng, expert_lat, expert_lng)
-
-        if distance_to_expert <= distance:
+        
+        if distance_to_expert <= distance_limit:
             nearby_experts.append({
                 'username': expert.username,
                 'distance': distance_to_expert

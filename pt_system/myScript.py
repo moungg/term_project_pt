@@ -18,7 +18,7 @@ users = [
     {"username": "user5", "password": "password6", "name": "이름6", "address": "제주도 북제주군 추자면", "is_expert": False, "qualification": None, "profile": "프로필6"},
     {"username": "user6", "password": "password7", "name": "이름7", "address": "경기도 시흥군 서면", "is_expert": True, "qualification": "Certified Expert", "profile": "프로필7"},
     {"username": "user7", "password": "password8", "name": "이름8", "address": "서울특별시 관악구 신림동", "is_expert": True, "qualification": "Certified Expert", "profile": "프로필8"},
-    {"username": "user8", "password": "password9", "name": "이름9", "address": "경강원도 정선군 정선읍", "is_expert": True, "qualification": "Certified Expert", "profile": "프로필9"},
+    {"username": "user8", "password": "password9", "name": "이름9", "address": "강원도 정선군 정선읍", "is_expert": True, "qualification": "Certified Expert", "profile": "프로필9"},
 ]
 
 for user_data in users:
