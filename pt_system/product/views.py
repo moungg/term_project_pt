@@ -28,7 +28,7 @@ def login_view(request):
 import requests
 
 GOOGLE_GEOCODING_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
-GOOGLE_API_KEY = "AIzaSyBpQCQx26_ClWRYFlflrtPuM5Nnp3Y0w9M"  # 실제 API 키로 바꿔주세요.
+GOOGLE_API_KEY = "AIzaSyDo7dSrKHwzck5UBG7kKVeYS_idNVxOuHM"  # 실제 API 키로 바꿔주세요.
 
 def get_lat_lng_from_address(address):
     params = {
