@@ -68,6 +68,10 @@ class LoginPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(30.0), // 원하는 모서리 반지름 값을 설정하세요
+                ),
               ),
               child: const Text('로그인', style: TextStyle(color: Colors.white)),
             ),

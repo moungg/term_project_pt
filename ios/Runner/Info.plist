@@ -10,11 +10,18 @@
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
 	<key>GoogleMapsApiKey</key>
-	<string>YOUR_API_KEY_HERE</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs full-time access to location.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+    <string>YOUR_API_KEY_HERE</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app needs full-time access to location.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app can use your location both when it’s open and in the background.</string> <!-- 추가된 부분 -->
+    <key>NSLocationTemporaryUsageDescriptionDictionary</key>
+    <dict>
+        <key>TemporaryRequestReason</key>
+        <string>We need temporary access to your location for specific features.</string>
+    </dict>
 	<key>UIBackgroundModes</key>
 	<array>
     <string>location</string>

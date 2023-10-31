@@ -7,6 +7,11 @@ import requests
 from rest_framework.response import Response
 from rest_framework import status
 from math import radians, sin, cos, sqrt, atan2
+import hashlib
+
+def generate_safe_key(original_key):
+    return hashlib.md5(original_key.encode()).hexdigest()
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -24,27 +29,46 @@ def login_view(request):
             # 로그인 실패
             return JsonResponse({'message': '로그인 실패'})
 
+from django.core.cache import cache
+
 def get_lat_lng_from_address(address):
-    base_url = "https://nominatim.openstreetmap.org/search"
+    # Use generate_safe_key to create a valid cache key
+    safe_key = generate_safe_key(address)
+    
+    # Fetch the coords from the cache using the safe key
+    coords = cache.get(safe_key)
+    if coords:
+        return coords
+
+    # Google Geocoding API base URL
+    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    
     params = {
-        "q": address,
-        "format": "json"
-    }
-    headers = {
-        "User-Agent": "pt_system/1.0 (yj302kim@naver.com)"
+        "address": address,
+        "key": "AIzaSyDo7dSrKHwzck5UBG7kKVeYS_idNVxOuHM"  # Google API key (make sure not to expose this key in public code)
     }
     
     try:
-        response = requests.get(base_url, params=params, headers=headers)
+        response = requests.get(base_url, params=params)
         response.raise_for_status()
         data = response.json()
         
-        if data:
-            return float(data[0]["lat"]), float(data[0]["lon"])
+        # Extract lat and lng from the API response
+        if data["status"] == "OK":
+            lat = data["results"][0]["geometry"]["location"]["lat"]
+            lng = data["results"][0]["geometry"]["location"]["lng"]
+            
+            # Store the fetched coords in the cache using the safe key
+            cache.set(safe_key, (lat, lng), 180)  # 3 minutes cache time
+
+            return lat, lng
+        else:
+            print(f"Error from Google Geocoding API: {data['status']}")
     except requests.RequestException as e:
         print(f"Error fetching coordinates for address {address}: {e}")
 
     return None, None
+
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371.0  # Earth radius in kilometers
@@ -84,8 +108,8 @@ def get_nearby_experts(request):
         
         if distance_to_expert <= distance_limit:
             nearby_experts.append({
-                'username': expert.username,
+                'username':expert.username,
                 'distance': distance_to_expert
             })
-
+    nearby_experts = sorted(nearby_experts, key=lambda x: x['distance'])
     return JsonResponse({'recommendations': nearby_experts})
