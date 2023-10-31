@@ -27,26 +27,25 @@ def login_view(request):
 
 import requests
 
-GOOGLE_GEOCODING_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
-GOOGLE_API_KEY = "AIzaSyDo7dSrKHwzck5UBG7kKVeYS_idNVxOuHM"  # 실제 API 키로 바꿔주세요.
 
 def get_lat_lng_from_address(address):
+    base_url = "https://nominatim.openstreetmap.org/search"
     params = {
-        "address": address,
-        "key": GOOGLE_API_KEY
+        "q": address,
+        "format": "json"
+    }
+    headers = {
+        "User-Agent": "pt_system/1.0 (yj302kim@naver.com)"  # 적절한 사용자 에이전트 정보 설정
     }
     
-    response = requests.get(GOOGLE_GEOCODING_API_URL, params=params)
+    response = requests.get(base_url, params=params, headers=headers)
     data = response.json()
-
-    if data["status"] == "OK":
-        lat = data["results"][0]["geometry"]["location"]["lat"]
-        lng = data["results"][0]["geometry"]["location"]["lng"]
-        print(lat);
-        return lat,lng
+    print(data);
+    if data:
+        return float(data[0]["lat"]), float(data[0]["lon"])
+        
     else:
         return None, None
-    
 def haversine(lat1, lon1, lat2, lon2):
     # 지구의 반지름 (킬로미터 단위)
     R = 6371.0
