@@ -59,7 +59,7 @@ def get_lat_lng_from_address(address):
             lng = data["results"][0]["geometry"]["location"]["lng"]
             
             # Store the fetched coords in the cache using the safe key
-            cache.set(safe_key, (lat, lng), 180)  # 3 minutes cache time
+            cache.set(safe_key, (lat, lng), 3000)  # 3 minutes cache time
 
             return lat, lng
         else:
