@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'main.dart';
+import 'signup_screen.dart';
 
 void main() {
   runApp(MaterialApp(home: LoginPage()));
@@ -62,18 +63,48 @@ class LoginPage extends StatelessWidget {
               controller: passwordController,
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                loginUser(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(30.0), // 원하는 모서리 반지름 값을 설정하세요
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      loginUser(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30.0), // 원하는 모서리 반지름 값을 설정하세요
+                      ),
+                    ),
+                    child: const Text('로그인',
+                        style: TextStyle(color: Colors.white)),
+                  ),
                 ),
-              ),
-              child: const Text('로그인', style: TextStyle(color: Colors.white)),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SignUpScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(30.0), // 원하는 모서리 반지름 값을 설정하세요
+                      ),
+                    ),
+                    child: const Text('회원가입',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
