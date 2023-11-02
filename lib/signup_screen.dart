@@ -28,7 +28,7 @@ class _SignUpScreenPage extends State<SignUpScreen> {
           //app상단(뒤로가기,로고)
           elevation: 0,
           automaticallyImplyLeading: false,
-          toolbarHeight: 50,
+          toolbarHeight: 70,
           backgroundColor: Colors.white,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -37,8 +37,8 @@ class _SignUpScreenPage extends State<SignUpScreen> {
                 margin: EdgeInsets.only(right: 50),
                 child: Image.asset(
                   'title.png',
-                  width: 110,
-                  height: 40,
+                  width: 140,
+                  height: 60,
                   fit: BoxFit.cover,
                 ),
               ),

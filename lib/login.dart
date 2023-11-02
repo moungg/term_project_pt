@@ -51,23 +51,29 @@ class LoginPage extends StatelessWidget {
               height: 200,
             ),
             const SizedBox(height: 16.0),
-            RoundedTextField(
-              label: '아이디',
-              isPassword: false,
-              controller: usernameController,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+              child: RoundedTextField(
+                label: '아이디',
+                isPassword: false,
+                controller: usernameController,
+              ),
             ),
             const SizedBox(height: 16.0),
-            RoundedTextField(
-              label: '패스워드',
-              isPassword: true,
-              controller: passwordController,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+              child: RoundedTextField(
+                label: '패스워드',
+                isPassword: true,
+                controller: passwordController,
+              ),
             ),
             const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
                   child: ElevatedButton(
                     onPressed: () {
                       loginUser(context);
@@ -84,7 +90,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(

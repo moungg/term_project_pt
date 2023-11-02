@@ -50,10 +50,26 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        //app상단(로고)
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 70,
+        backgroundColor: Colors.white,
+        title: Center(
+          child: Image.asset(
+            'title.png',
+            width: 140,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
       body: ListView(
         children: [
           const Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.fromLTRB(40.0, 50.0, 0.0, 20.0),
             child: Text(
               '오늘의 할일',
               style: TextStyle(
@@ -64,7 +80,7 @@ class HomePage extends StatelessWidget {
           ),
           buildTaskListView(),
           const Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.fromLTRB(40.0, 50.0, 0.0, 20.0),
             child: Text(
               '오늘의 식단',
               style: TextStyle(
@@ -103,7 +119,7 @@ class HomePage extends StatelessWidget {
 
   Widget buildTaskItem(Task task) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
       child: InkWell(
         borderRadius: BorderRadius.circular(15.0),
         onTap: () {
@@ -148,7 +164,7 @@ class HomePage extends StatelessWidget {
 
   Widget buildFoodItem(Food food) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
       child: InkWell(
         borderRadius: BorderRadius.circular(15.0),
         onTap: () {
