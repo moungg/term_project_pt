@@ -11,6 +11,9 @@ class User(models.Model):
     qualification = models.CharField(max_length=50, null=True, blank=True)  # 자격증
     profile = models.TextField(null=True, blank=True) 
     
+    
+    USERNAME_FIELD = 'userid'
+    REQUIRED_FIELDS = ['email']
     def __str__(self):
         return self.username
 
