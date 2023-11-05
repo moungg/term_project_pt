@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //회원가입 기능
 //아아디, 비밀번호, 이름, 전화번호 저장
 //일반회원과 전문가를 구별하여 변수에 저장
-//회원가입 버튼 누를시 -> 비밀번호 확인 기능
+//회원가입 버튼 누를시 -> 비밀번호 확인 -> 다르면 경고창 출력
 //
 
 String id = " "; //아이디 저장 변수
@@ -130,7 +130,7 @@ class _SignUpScreenPage extends State<SignUpScreen> {
                       });
                     },
                   ),
-                  const Text('전문가'),
+                  const Text('트레이너'),
                 ],
               ),
               const SizedBox(height: 30),
