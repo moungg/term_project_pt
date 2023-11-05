@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'main.dart';
+import 'loginjoin.dart';
 
 void main() {
   runApp(MaterialApp(home: LoginPage()));
@@ -17,8 +18,7 @@ class LoginPage extends StatelessWidget {
     final password = passwordController.text;
 
     // 실제 서버 URL로 변경
-    const loginUrl = 'http://localhost:8000/login'; // 로그인 요청을 보낼 URL
-// 로그인 요청을 보낼 URL
+    const loginUrl = 'http://127.0.0.1:8000/login'; // 로그인 요청을 보낼 URL
 
     final response = await http.post(Uri.parse(loginUrl), body: {
       'username': username,
@@ -41,41 +41,81 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              'assets/title.png',
-              width: 200,
-              height: 200,
-            ),
-            const SizedBox(height: 16.0),
-            RoundedTextField(
-              label: '아이디',
-              isPassword: false,
-              controller: usernameController,
-            ),
-            const SizedBox(height: 16.0),
-            RoundedTextField(
-              label: '패스워드',
-              isPassword: true,
-              controller: passwordController,
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                loginUser(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(30.0), // 원하는 모서리 반지름 값을 설정하세요
+        child: SingleChildScrollView(
+          // 스크롤 가능하도록 SingleChildScrollView 추가
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                'assets/title.png',
+                width: 400,
+                height: 400,
+              ),
+              const SizedBox(height: 16.0),
+              RoundedTextField(
+                label: '아이디',
+                isPassword: false,
+                controller: usernameController,
+              ),
+              const SizedBox(height: 16.0),
+              RoundedTextField(
+                label: '패스워드',
+                isPassword: true,
+                controller: passwordController,
+              ),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center, // 이 속성으로 가운데 정렬
+                  mainAxisSize: MainAxisSize.min, // 이 속성으로 필요한 공간만 사용s
+                  children: <Widget>[
+                    Flexible(
+                      // 로그인 버튼을 Expanded 위젯으로 감싸기
+                      child: ElevatedButton(
+                        onPressed: () {
+                          loginUser(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 60), // 높이 설정
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                        child: const Text('로그인',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                    const SizedBox(width: 16.0), // 버튼 사이의 간격
+                    Flexible(
+                      // 회원가입 버튼을 Expanded 위젯으로 감싸기
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // 회원가입 페이지로 이동
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    RegisterPage()), // 'RegisterPage'는 회원가입 페이지의 위젯
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 60), // 높이 설정
+                          backgroundColor: Colors.black, // 회원가입 버튼 색상 변경
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                        child: const Text('회원가입',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              child: const Text('로그인', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

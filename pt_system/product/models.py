@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 # Create your models here.
 
 class User(models.Model):
@@ -10,7 +10,7 @@ class User(models.Model):
     is_expert = models.BooleanField(default=False)  # 전문가 여부
     qualification = models.CharField(max_length=50, null=True, blank=True)  # 자격증
     profile = models.TextField(null=True, blank=True) 
-    
+    photo = models.ImageField(upload_to='user_photos/', null=True, blank=True)  # 사용자 사진 필드 추가
     
     USERNAME_FIELD = 'userid'
     REQUIRED_FIELDS = ['email']

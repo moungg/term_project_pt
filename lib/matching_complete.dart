@@ -66,10 +66,69 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
               : ListView.builder(
                   itemCount: experts.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(experts[index]['username']),
-                      subtitle: Text(
-                          "Distance: ${experts[index]['distance'].toString()} km"),
+                    var expert = experts[index];
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 80.0,
+                              height: 80.0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(10.0), // 둥근 모서리 적용
+                                image: expert['photo'] != null
+                                    ? DecorationImage(
+                                        image: NetworkImage(
+                                            expert['photo']), // 원격 이미지 로드
+                                        fit: BoxFit.contain,
+                                      )
+                                    : const DecorationImage(
+                                        image: AssetImage(
+                                            'assets/default-profile.jpg'), // 기본 이미지 설정
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                            ),
+                            const SizedBox(
+                                width:
+                                    16), // Add space between the image and the text
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(expert['username'],
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 10),
+                                  Text(expert['profile'] ?? '프로필 없음',
+                                      style: const TextStyle(fontSize: 16)),
+                                  const SizedBox(height: 5),
+                                  Text('${expert['distance']} km',
+                                      style: const TextStyle(fontSize: 16)),
+                                  const SizedBox(height: 5),
+                                  Text(expert['qualification'] ?? '자격증 없음',
+                                      style: const TextStyle(fontSize: 16)),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                // TODO: '이용' 버튼이 눌렸을 때의 액션 추가
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                              child: const Text('이용'),
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   },
                 )),

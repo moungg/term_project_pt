@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.urls import path
 from product import views
+
+
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
 urlpatterns = [
     path('login', views.login_view, name='login'),
      path('get_nearby_experts/', views.get_nearby_experts, name="get_nearby_experts"),
 
     # 다른 URL 패턴들을 추가할 수 있음
 ]   
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -109,7 +109,10 @@ def get_nearby_experts(request):
         if distance_to_expert <= distance_limit:
             nearby_experts.append({
                 'username':expert.username,
-                'distance': distance_to_expert
+                'profile': expert.profile,  # 프로필 정보 추가
+                'qualification': expert.qualification,  # 자격증 정보 추가
+                'distance': distance_to_expert,
+                'photo': expert.photo.url if expert.photo else None, 
             })
     nearby_experts = sorted(nearby_experts, key=lambda x: x['distance'])
     return JsonResponse({'recommendations': nearby_experts})
