@@ -52,18 +52,29 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        //app상단(로고)
         elevation: 0,
         automaticallyImplyLeading: false,
         toolbarHeight: 70,
         backgroundColor: Colors.white,
-        title: Center(
-          child: Image.asset(
-            'title.png',
-            width: 140,
-            height: 60,
-            fit: BoxFit.cover,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 50),
+              child: Image.asset(
+                'title.png',
+                width: 140,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
         ),
       ),
       body: ListView(

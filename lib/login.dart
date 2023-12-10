@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pt_system/manageTrainer.dart';
+import 'package:pt_system/trainer.dart';
 import 'main.dart';
-import 'signup_screen.dart';
+import 'loginjoin.dart';
+
+String loginId = "";
+String loginPw = "";
 
 void main() {
   runApp(MaterialApp(home: LoginPage()));
@@ -16,7 +21,8 @@ class LoginPage extends StatelessWidget {
   Future<void> loginUser(BuildContext context) async {
     final username = usernameController.text;
     final password = passwordController.text;
-
+    loginId = usernameController.text; // 입력된 아이디를 loginId에 저장
+    loginPw = passwordController.text; // 입력된 패스워드를 loginPw에 저장
     // 실제 서버 URL로 변경
     const loginUrl = 'http://localhost:8000/login'; // 로그인 요청을 보낼 URL
 // 로그인 요청을 보낼 URL
@@ -77,6 +83,59 @@ class LoginPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       loginUser(context);
+                      if (loginId == "qwer" && loginPw == "123456") {
+                        //김승규 트레이너 샘플 모델
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => trainer(),
+                          ),
+                        );
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('로그인 되었습니다.'),
+                              content: const Text('김승규 트레이너님 환영합니다.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('확인'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('매칭 요청이 있습니다. (2건)'),
+                              content: const Text('확인하시겠습니까?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => manage_Trainer(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('확인'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('나중에 확인'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,

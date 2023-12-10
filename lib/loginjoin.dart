@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pt_system/login.dart';
 //
 //회원가입 기능
 //아아디, 비밀번호, 이름, 전화번호 저장
@@ -156,6 +157,29 @@ class _SignUpScreenPage extends State<SignUpScreen> {
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
+                              },
+                              child: const Text('확인'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('회원가입 완료!'),
+                          content: const Text('로그인화면으로 돌아갑니다.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
                               },
                               child: const Text('확인'),
                             ),
