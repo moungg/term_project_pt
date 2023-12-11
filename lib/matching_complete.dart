@@ -21,23 +21,34 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
   }
 
   Future<void> fetchExperts() async {
-    // 위치 서비스를 통해 사용자의 현재 위치 가져오기
-    LocationData? locationData = await getCurrentLocation();
+    try {
+      // 위치 서비스를 통해 사용자의 현재 위치 가져오기
+      LocationData? locationData = await getCurrentLocation();
 
-    double lat = locationData.latitude!;
-    double lng = locationData.longitude!;
+      double lat = locationData.latitude!;
+      double lng = locationData.longitude!;
 
-    final String serverUrl =
-        'http://localhost:8000/get_nearby_experts/?lat=$lat&lng=$lng';
-    final response = await http.get(Uri.parse(serverUrl));
+      final String serverUrl =
+          'http://192.168.50.138:8000/get_nearby_experts/?lat=$lat&lng=$lng';
+      final response = await http.get(Uri.parse(serverUrl));
 
-    if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
+        setState(() {
+          experts = json.decode(response.body)['recommendations'];
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        throw Exception('Failed to load experts from server');
+      }
+    } catch (e) {
       setState(() {
-        experts = json.decode(response.body)['recommendations'];
         isLoading = false;
       });
-    } else {
-      throw Exception('Failed to get experts');
+      // Handle the error by showing an alert dialog or a snackbar
+      showErrorDialog(e.toString());
     }
   }
 
@@ -49,6 +60,26 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
     } else {
       throw Exception('Location permission not granted');
     }
+  }
+
+  void showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -76,24 +107,20 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
                               width: 80.0,
                               height: 80.0,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(10.0), // 둥근 모서리 적용
+                                borderRadius: BorderRadius.circular(10.0),
                                 image: expert['photo'] != null
                                     ? DecorationImage(
-                                        image: NetworkImage(
-                                            expert['photo']), // 원격 이미지 로드
+                                        image: NetworkImage(expert['photo']),
                                         fit: BoxFit.contain,
                                       )
                                     : const DecorationImage(
                                         image: AssetImage(
-                                            'assets/default-profile.jpg'), // 기본 이미지 설정
+                                            'assets/default-profile.jpg'),
                                         fit: BoxFit.cover,
                                       ),
                               ),
                             ),
-                            const SizedBox(
-                                width:
-                                    16), // Add space between the image and the text
+                            const SizedBox(width: 16),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +151,7 @@ class _MatchingCompletePageState extends State<MatchingCompletePage> {
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
                               ),
-                              child: const Text('이용'),
+                              child: const Text('CALL'),
                             ),
                           ],
                         ),

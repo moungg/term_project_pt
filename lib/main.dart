@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Cafe24Danjunghae',
+      ),
       home: LoginPage(), // 앱 시작 시 LoginPage 표시
     );
   }

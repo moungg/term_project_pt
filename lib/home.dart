@@ -29,20 +29,20 @@ class Food {
 class HomePage extends StatelessWidget {
   final List<Task> tasks = [
     Task(
-        image: 'assets/image1.png',
+        image: 'assets/work1.jpeg',
         title: 'Exercise 1',
         repeatCount: 3,
         expectedTime: '30 mins'),
     Task(
-        image: 'assets/image2.png',
+        image: 'assets/work2.jpeg',
         title: 'Exercise 2',
         repeatCount: 2,
         expectedTime: '20 mins'),
   ];
 
   final List<Food> foods = [
-    Food(image: 'assets/food1.png', name: 'Salad', calories: 300),
-    Food(image: 'assets/food2.png', name: 'Fruit Bowl', calories: 200),
+    Food(image: 'assets/닭가슴살.jpeg', name: 'Salad', calories: 300),
+    Food(image: 'assets/샐러드.jpeg', name: 'Fruit Bowl', calories: 200),
   ];
 
   HomePage({Key? key}) : super(key: key);

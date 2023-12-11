@@ -14,6 +14,22 @@ class User(models.Model):
     
     USERNAME_FIELD = 'userid'
     REQUIRED_FIELDS = ['email']
+    
     def __str__(self):
         return self.username
+    
+class NotificationType(models.Model):
+    type_name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.type_name
+    
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    notification_type = models.ForeignKey(NotificationType, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.notification_type.type_name}"

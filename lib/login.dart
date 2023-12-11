@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
     final password = passwordController.text;
 
     // 실제 서버 URL로 변경
-    const loginUrl = 'http://127.0.0.1:8000/login'; // 로그인 요청을 보낼 URL
+    const loginUrl = 'http://192.168.50.138:8000/login'; // 로그인 요청을 보낼 URL
 
     final response = await http.post(Uri.parse(loginUrl), body: {
       'username': username,
